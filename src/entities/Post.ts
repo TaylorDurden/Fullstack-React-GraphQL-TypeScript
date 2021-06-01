@@ -1,7 +1,6 @@
 import {
   Entity,
   PrimaryKey,
-  SerializedPrimaryKey,
   Property,
 } from "@mikro-orm/core";
 import { Field, Int, ObjectType } from "type-graphql";

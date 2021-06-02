@@ -16,7 +16,6 @@ const main = async () => {
   await orm.getMigrator().up();
   // const post = orm.em.create(Post, {title: 'my first post'});
   // orm.em.persistAndFlush(post);
-
   const app = express();
   const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
     resolvers: [HelloResolver, PostResolver],

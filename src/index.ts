@@ -1,32 +1,31 @@
 import { MikroORM } from "@mikro-orm/core";
 import { __prod__ } from "./constants";
-import { Post } from "./entities/Post";
 import mikroOrmConfig from "./mikro-orm.config";
 import express from "express";
-import { ApolloServer, gql, IResolvers } from "apollo-server-express";
-import { buildSchema } from "graphql";
+import { ApolloServer, } from "apollo-server-express";
 import { HelloResolver } from "./resolvers/hello";
+import { PostResolver } from "./resolvers/post";
+import { buildTypeDefsAndResolvers } from "type-graphql";
+import { makeExecutableSchema } from "graphql-tools";
+import { Post } from './entities/Post';
 
 const main = async () => {
   const orm = await MikroORM.init(mikroOrmConfig);
   await orm.getMigrator().up();
 
   const app = express();
-  const typeDefs = gql`
-    type Query {
-      hello: String
-    }
-  `;
-  // const resolvers = {
-  //   Query: {
-  //     hello: () => "Hello world  and bye!",
-  //   },
-  // };
-  const resolvers = [
-    typeof HelloResolver
-  ];
-  const apolloServer = new ApolloServer({ typeDefs, resolvers: [HelloResolver] });
-  apolloServer.applyMiddleware({app});
+  // const resolvers = [HelloResolver, PostResolver]  as const;
+  const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
+    resolvers: [HelloResolver],
+  });
+  
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
+  
+  const apolloServer = new ApolloServer({
+    schema,
+    context: () => ({ em: orm.em })
+  });
+  apolloServer.applyMiddleware({ app });
   app.listen(4000, () => {
     console.log("server started on localhost:4000");
   });

@@ -2,6 +2,7 @@ import { MikroORM } from "@mikro-orm/core";
 import { __prod__ } from "./constants";
 import { Post } from "./entities/Post";
 import path from 'path';
+import { User } from "./entities/User";
 
 
 export default {
@@ -12,6 +13,6 @@ export default {
   dbName: "lireddit",
   debug: !__prod__,
   type: "postgresql",
-  entities: [Post],
+  entities: [Post, User],
   password: "Konamember@123",
 } as Parameters<typeof MikroORM.init>[0];

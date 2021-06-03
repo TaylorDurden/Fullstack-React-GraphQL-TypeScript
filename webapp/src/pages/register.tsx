@@ -1,33 +1,43 @@
-import React from 'react'
-import { Formik, Form } from 'Formik'
-import { FormControl, FormLabel, Input } from '@chakra-ui/react';
-import { Wrapper } from '../components/Wrapper';
+import React from "react";
+import { Formik, Form } from "Formik";
+import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Wrapper } from "../components/Wrapper";
+import { InputField } from "../components/InputField";
 
-interface registerProps {
+interface registerProps {}
 
-}
-
-const Register: React.FC<registerProps> = ({ }) => {
+const Register: React.FC<registerProps> = ({}) => {
   return (
-    <Wrapper variant='small'>
+    <Wrapper variant="small">
       <Formik
-        initialValues={{ username: '', password: '' }}
+        initialValues={{ username: "", password: "" }}
         onSubmit={(values) => {
           console.log(values);
         }}
       >
-        {({ values, handleChange }) => (
+        {({ isSubmitting }) => (
           <Form>
-            <FormControl>
-              <FormLabel htmlFor="username">Username</FormLabel>
-              <Input value={values.username} onChange={handleChange} id="username" placeholder="username" />
-              {/* <FormErrorMessage>{form.errors.name}</FormErrorMessage> */}
-            </FormControl>
+            <InputField
+              name="username"
+              placeholder="username"
+              label="Username"
+            />
+            <Box mt={4}>
+              <InputField
+                name="password"
+                placeholder="password"
+                label="Password"
+                type="password"
+              />
+            </Box>
+            <Button isLoading={isSubmitting} type="submit" mt={4} colorScheme="teal">
+              Register
+            </Button>
           </Form>
         )}
       </Formik>
     </Wrapper>
   );
-}
+};
 
 export default Register;

@@ -7,6 +7,7 @@ import {
   InputType,
   Mutation,
   ObjectType,
+  Query,
   Resolver,
 } from "type-graphql";
 import argon2 from "argon2";
@@ -39,6 +40,21 @@ class UserResponse {
 
 @Resolver()
 export class UserResolver {
+  @Query(() => User, { nullable: true })
+  async me(
+    @Ctx() { em, req }: MyContext,
+  ): Promise<User | null> {
+
+    console.log('req.session.userId: ', req.session.userId);
+    console.log('req.session: ', req.session);
+    if(!req.session.userId) {
+      return null
+    }
+
+    const user = await em.findOne(User, { id: req.session.userId });
+    return user;
+  }
+
   @Mutation(() => UserResponse)
   async register(
     @Arg("options") options: UsernamePasswordInput,
@@ -72,15 +88,15 @@ export class UserResolver {
     try {
       await em.persistAndFlush(user);
     } catch (err) {
-      if(err.code === "23505" || err.detail.includes("already exists")) {
+      if (err.code === "23505" || err.detail.includes("already exists")) {
         return {
           errors: [
             {
               field: "username",
               message: "username too short, 2 at least",
-            }
-          ]
-        }
+            },
+          ],
+        };
       }
       console.log("message: ", err.message);
     }
@@ -120,10 +136,11 @@ export class UserResolver {
       };
     }
 
-    console.log('user.id: ', user.id.toString())
+    console.log("user.id: ", user.id.toString());
     req.session.userId = user.id.toString();
+    // req.session.randomKey = user.id.toString();
 
-    console.log('req.session: ', req.session)
+    console.log("req.session: ", req.session);
     return {
       user,
     };

@@ -16,7 +16,6 @@ import { MyContext } from "./types";
 
 const main = async () => {
   const orm = await MikroORM.init(mikroOrmConfig);
-
   await orm.getMigrator().up();
   // const post = orm.em.create(Post, {title: 'my first post'});
   // orm.em.persistAndFlush(post);

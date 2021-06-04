@@ -23,6 +23,7 @@
   "homepage": "https://github.com/TaylorDurden/Fullstack-React-GraphQL-TypeScript#readme",
   "devDependencies": {
     "@types/connect-redis": "^0.0.16",
+    "@types/cors": "^2.8.10",
     "@types/express": "^4.17.12",
     "@types/node": "^15.6.1",
     "@types/redis": "^2.8.29",

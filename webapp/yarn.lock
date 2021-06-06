@@ -1152,10 +1152,10 @@
     ts-node "^9"
     tslib "^2"
 
-"@graphql-codegen/cli@1.21.5":
+"@graphql-codegen/cli@^1.21.5":
   version "1.21.5"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-1.21.5.tgz#b9041553747cfb2dee7c3473a2e2461ec3e7ada5"
-  integrity sha512-w3SovNJ9qtMhFLAdPZeCdGvHXDgfdb53mueWDTyncOt04m+tohVnY4qExvyKLTN5zlGxrA/5ubp2x8Az0xQarA==
+  resolved "https://registry.nlark.com/@graphql-codegen/cli/download/@graphql-codegen/cli-1.21.5.tgz#b9041553747cfb2dee7c3473a2e2461ec3e7ada5"
+  integrity sha1-uQQVU3R8+y3ufDRzouJGHsPnraU=
   dependencies:
     "@graphql-codegen/core" "1.17.10"
     "@graphql-codegen/plugin-helpers" "^1.18.7"
@@ -1732,12 +1732,20 @@
   dependencies:
     "@types/node" "*"
 
-"@urql/core@^2.1.0":
+"@urql/core@>=2.1.3", "@urql/core@^2.1.0":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-2.1.3.tgz#fd8514ce28c1f8cf8e99a03b86a3df217c132290"
   integrity sha512-CzrTMhO5SG7qdAaS3B5/g1TPH5k7326GHIyta1owT2vzxX9ev8YytxOE5m73EuacxIfF7qVZFhCzY+rubOlI0w==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.0"
+    wonka "^4.0.14"
+
+"@urql/exchange-graphcache@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.nlark.com/@urql/exchange-graphcache/download/@urql/exchange-graphcache-4.1.3.tgz#75c3b608f91d453397345ba32aff910da56e3572"
+  integrity sha1-dcO2CPkdRTOXNFujKv+RDaVuNXI=
+  dependencies:
+    "@urql/core" ">=2.1.3"
     wonka "^4.0.14"
 
 abort-controller@3.0.0:

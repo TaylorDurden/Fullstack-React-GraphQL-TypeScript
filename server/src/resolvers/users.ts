@@ -4,7 +4,6 @@ import {
   Arg,
   Ctx,
   Field,
-  InputType,
   Mutation,
   ObjectType,
   Query,
@@ -13,14 +12,8 @@ import {
 import argon2 from "argon2";
 import { EntityManager } from "@mikro-orm/postgresql";
 import { COOKIE_NAME } from "../constants";
-
-@InputType()
-class UsernamePasswordInput {
-  @Field()
-  username: string;
-  @Field()
-  password: string;
-}
+import { UsernamePasswordInput } from "./UsernamePasswordInput";
+import { BlockList } from "net";
 
 @ObjectType()
 class FieldError {
@@ -42,13 +35,22 @@ class UserResponse {
 
 @Resolver()
 export class UserResolver {
+  @Mutation(() => Boolean)
+  async forgotPassword(
+    @Arg('email') email: string,
+    @Ctx() {em}:MyContext 
+  ){
+    // const user = await em.findOne(User, {email});
+    return true;
+  }
+
   @Query(() => User, { nullable: true })
   async me(
     @Ctx() { em, req }: MyContext,
   ): Promise<User | null> {
 
-    console.log('req.session.userId: ', req.session.userId);
-    console.log('req.session: ', req.session);
+    console.log(`resolver:users.ts-me, rowNumber: 50, req.session.userId: ", ${req.session.userId}`);
+    console.log(`resolver:users.ts-me, rowNumber: 51, req.session: ", ${req.session}`);
     if(!req.session.userId) {
       return null
     }
@@ -110,7 +112,7 @@ export class UserResolver {
       console.log("message: ", err.message);
     }
 
-    req.session.userId = user.id.toString();
+    req.session.userId = user.id;
     return {
       user,
     };
@@ -147,11 +149,10 @@ export class UserResolver {
       };
     }
 
-    console.log("user.id: ", user.id.toString());
-    req.session.userId = user.id.toString();
-    // req.session.randomKey = user.id.toString();
-
-    console.log("req.session: ", req.session);
+    console.log(`resolver:users.ts-login, rowNumber: 150, user.id: ", ${user.id}`);
+    console.log(`resolver:users.ts-login, rowNumber: 151, req.session: ", ${req.session}`);
+    req.session.userId = user.id;
+    // req.session.randomKey = user.id;
     return {
       user,
     };

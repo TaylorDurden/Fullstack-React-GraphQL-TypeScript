@@ -8,6 +8,8 @@ interface ReqSession extends Session{
 
 export type MyContext = {
   em: EntityManager<any> & EntityManager<IDatabaseDriver<Connection>>;
-  req: Request & { session?: Session };
+  req: Request & {
+    session: Session & Partial<SessionData> & { userId?: number };
+  };
   res: Response;
 }
